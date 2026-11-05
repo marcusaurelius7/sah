@@ -1,0 +1,211 @@
+<!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}</style>
+<title>Marcus vs Ender</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: o coloană tip tabelă de scor; hero = scorul mare, apoi secțiuni stivuite */
+:root{
+  --bg:#eef1f3; --panel:#ffffff; --fg:#1b2730; --muted:#5d6c77; --line:#d5dde2;
+  --a:#2f6f5e; --b:#b5632a; --sq:#dfe6ea;
+  --display:"Bricolage Grotesque",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121a20;--panel:#1a242b;--fg:#e6ecef;--muted:#93a2ac;--line:#2b3840;--a:#4f9e88;--b:#c97a45;--sq:#22303a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a20;--panel:#1a242b;--fg:#e6ecef;--muted:#93a2ac;--line:#2b3840;--a:#4f9e88;--b:#c97a45;--sq:#22303a;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding-block:28px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:30px}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,46px);line-height:1.05;margin:4px 0 0}
+h1 span{display:block;white-space:nowrap}
+h1 .vs{color:var(--muted);font-weight:500;font-size:.55em;margin:2px 0}
+.pa{color:var(--a)} .pb{color:var(--b)}
+h2{font-family:var(--display);font-weight:800;font-size:20px;margin:0 0 12px}
+.label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.crown{margin-top:10px;font-size:15px}
+.score{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:12px;margin-top:18px}
+.score .n{font-family:var(--display);font-weight:800;font-size:clamp(56px,17vw,92px);line-height:.85;font-variant-numeric:tabular-nums}
+.score .dash{font-family:var(--display);font-size:40px;color:var(--muted);padding-bottom:8px}
+.score .r{text-align:right}
+.bar{display:flex;height:18px;border-radius:4px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;background-image:repeating-linear-gradient(90deg,transparent 0 14px,rgba(255,255,255,.14) 14px 28px)}
+.sub{display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:6px}
+.strip{display:flex;flex-wrap:wrap;gap:4px}
+.strip a{width:22px;height:22px;border-radius:3px;display:grid;place-items:center;font:600 11px var(--mono);color:#fff;text-decoration:none}
+.strip a:focus-visible{outline:2px solid var(--fg);outline-offset:1px}
+.split{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.card b{font-family:var(--mono);font-size:17px;font-variant-numeric:tabular-nums}
+.card span{font-size:13px;color:var(--muted)}
+.chart{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:320px;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;margin-bottom:6px}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;background:currentColor}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.fact{border-left:3px solid var(--line);padding:2px 0 2px 12px;min-width:0}
+.fact b{display:block;font-size:15px}
+.fact span{font-size:13.5px;color:var(--muted)}
+.games{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.g{display:grid;grid-template-columns:30px 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-top:1px solid var(--line);color:inherit;text-decoration:none}
+.g:first-child{border-top:0}
+.g:hover,.g:focus-visible{background:var(--sq);outline:none}
+.res{font:600 12px var(--mono);text-align:center;border-radius:4px;padding:3px 0;color:#fff}
+.g .t{min-width:0}
+.g .t b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g .t span,.g .d{font-size:12px;color:var(--muted);font-family:var(--mono)}
+.g .d{text-align:right;white-space:nowrap}
+.more{font:inherit;font-size:13px;background:none;border:1px solid var(--line);color:var(--fg);border-radius:6px;padding:8px 12px;margin-top:10px;cursor:pointer}
+.more:focus-visible{outline:2px solid var(--fg)}
+.foot{font-size:12px;color:var(--muted)}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header>
+    <div class="label">Daily · Chess.com · meci direct</div>
+    <h1><span class="pa">marcus7aurelius</span><span class="vs">vs</span><span class="pb">ender6667</span></h1>
+    <div class="crown" id="crown"></div>
+    <div class="score">
+      <div><div class="n pa" id="wa"></div><div class="label">victorii</div></div>
+      <div class="dash">–</div>
+      <div class="r"><div class="n pb" id="wb"></div><div class="label">victorii</div></div>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="sub"><span id="pct"></span><span id="span"></span></div>
+  </header>
+
+  <section>
+    <h2>Partidă cu partidă</h2>
+    <div class="strip" id="strip"></div>
+  </section>
+
+  <section>
+    <h2>Rating daily</h2>
+    <div class="chart">
+      <div class="legend"><span class="pa">marcus7aurelius</span><span class="pb">ender6667</span></div>
+      <svg id="svg" viewBox="0 0 640 220" role="img" aria-label="Rating-ul daily al fiecăruia la fiecare partidă"></svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cu albele, cu negrele</h2>
+    <div class="split" id="split"></div>
+  </section>
+
+  <section><h2>Curiozități și rușini</h2><div class="facts" id="facts"></div></section>
+
+  <section>
+    <h2>Toate partidele</h2>
+    <div class="games" id="games"></div>
+    <button class="more" id="more" type="button">Arată toate</button>
+  </section>
+
+  <p class="foot" id="foot">Se încarcă partidele…</p>
+</div>
+
+<script>
+const A="marcus7aurelius", B="ender6667";
+const $=id=>document.getElementById(id);
+const C=p=>p===A?"--a":"--b";
+const other=p=>p===A?B:A;
+const fmt=t=>new Date(t*1000).toLocaleDateString("ro-RO",{day:"numeric",month:"short",year:"numeric"});
+const nice=s=>s.replace(/\bVan t\b/,"Van't").replace(/\bKings\b/g,"King's").replace(/\bQueens\b/g,"Queen's");
+const de=n=>n>=20?n+" de":n;
+const fam=s=>nice(s).replace(/^(.*?\b(Defense|Opening|Game|Gambit|Attack))\b.*$/,"$1");
+function render(GAMES,updated){
+const g=GAMES.map(x=>({...x,lose:other(x.win),
+  rA:x.w===A?x.wr:x.br, rB:x.w===A?x.br:x.wr,
+  accA:x.w===A?x.wa:x.ba, accB:x.w===A?x.ba:x.wa}));
+const N=g.length, wins=p=>g.filter(x=>x.win===p).length;
+const wa=wins(A), wb=wins(B), lead=wa>wb?A:wb>wa?B:null;
+
+$("wa").textContent=wa; $("wb").textContent=wb;
+$("bar").innerHTML=`<i style="width:${wa/N*100}%;background:var(--a)"></i><i style="width:${wb/N*100}%;background:var(--b)"></i>`;
+$("pct").textContent=`${de(N)} partide daily · 0 remize`;
+$("span").textContent=`${fmt(g[0].e)} – ${fmt(g[N-1].e)}`;
+let cur=1; for(let i=N-2;i>=0&&g[i].win===g[N-1].win;i--) cur++;
+$("crown").innerHTML=lead
+  ? `<span class="${lead===A?"pa":"pb"}">${lead}</span> e Împăratul tablei, cu +${Math.abs(wa-wb)}. Ultima partidă: ${g[N-1].win}${cur>1?`, ${cur} victorii la rând`:""}.`
+  : "Egalitate perfectă. Nimeni nu poartă coroana.";
+
+$("strip").innerHTML=g.map((x,i)=>`<a href="${x.u}" target="_blank" rel="noopener" title="#${i+1} · ${fmt(x.e)} · câștigă ${x.win}" style="background:var(${C(x.win)})">${x.win===A?"M":"E"}</a>`).join("");
+
+(function(){
+  const W=640,H=220,L=44,R=12,T=14,Bm=28;
+  const all=g.flatMap(x=>[x.rA,x.rB]);
+  const lo=Math.floor((Math.min(...all)-10)/50)*50, hi=Math.ceil((Math.max(...all)+10)/50)*50;
+  const step=(hi-lo)>300?100:50;
+  const X=i=>L+i/(N-1)*(W-L-R), Y=v=>T+(hi-v)/(hi-lo)*(H-T-Bm);
+  const mono='font-size="11" font-family="IBM Plex Mono,monospace"';
+  let s="";
+  for(let v=lo; v<=hi; v+=step) s+=`<line x1="${L}" x2="${W-R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${Y(v)+4}" text-anchor="end" ${mono} fill="var(--muted)">${v}</text>`;
+  [0,Math.floor((N-1)/2),N-1].forEach(i=>s+=`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?"start":i===N-1?"end":"middle"}" ${mono} fill="var(--muted)">${fmt(g[i].e)}</text>`);
+  const last={rA:g[N-1].rA,rB:g[N-1].rB}, aTop=last.rA>=last.rB;
+  for(const [k,c] of [["rA","--a"],["rB","--b"]]){
+    const up=(k==="rA")===aTop;
+    s+=`<polyline fill="none" stroke="var(${c})" stroke-width="2.2" stroke-linejoin="round" points="${g.map((x,i)=>X(i)+","+Y(x[k])).join(" ")}"/>`;
+    s+=`<circle cx="${X(N-1)}" cy="${Y(last[k])}" r="4" fill="var(${c})"/><text x="${X(N-1)-8}" y="${Y(last[k])+(up?-8:16)}" text-anchor="end" ${mono} font-weight="600" fill="var(${c})">${last[k]}</text>`;
+  }
+  $("svg").innerHTML=s;
+})();
+
+$("split").innerHTML=[A,B].map(p=>{
+  const w=g.filter(x=>x.w===p), bl=g.filter(x=>x.w!==p);
+  const ww=w.filter(x=>x.win===p).length, bw=bl.filter(x=>x.win===p).length;
+  return `<div class="card"><span class="label" style="color:var(${C(p)})">${p}</span>
+    <b>albe ${ww}/${w.length} · negre ${bw}/${bl.length}</b>
+    <span>${Math.round(ww/w.length*100)}% victorii cu albele, ${Math.round(bw/bl.length*100)}% cu negrele</span></div>`;
+}).join("");
+
+(function(){
+  const f=[];
+  const best={[A]:0,[B]:0}; let run=0,who=null;
+  for(const x of g){ run = x.win===who ? run+1 : 1; who=x.win; best[who]=Math.max(best[who],run); }
+  f.push(["Cea mai lungă serie", `${A}: ${best[A]} la rând · ${B}: ${best[B]} la rând`]);
+  f.push(["Mat? Ce e aia?", `Toate cele ${de(N)} partide s-au terminat prin abandon. Niciun rege n-a fost prins vreodată.`]);
+  const fast=[...g].sort((a,b)=>a.mv-b.mv)[0];
+  f.push(["Cel mai rapid steag alb", `${fast.lose} a cedat după doar ${fast.mv} mutări (${fam(fast.op)}, ${fmt(fast.e)}).`]);
+  const long=[...g].sort((a,b)=>b.mv-a.mv)[0];
+  f.push(["Maratonul", `${long.mv} mutări, până a cedat ${long.lose} (${fmt(long.e)}).`]);
+  const slow=[...g].sort((a,b)=>(b.e-b.s)-(a.e-a.s))[0], d=Math.round((slow.e-slow.s)/86400);
+  f.push(["Partida-telenovelă", `${d} zile de la prima la ultima mutare (${fmt(slow.s)} – ${fmt(slow.e)}).`]);
+  const acc=g.filter(x=>x.accA!=null&&x.accB!=null);
+  const avg=k=>(acc.reduce((s,x)=>s+x[k],0)/acc.length).toFixed(1);
+  f.push(["Precizie medie", `${A}: ${avg("accA")}% · ${B}: ${avg("accB")}% (în ${de(acc.length)} partide analizate)`]);
+  const top=acc.flatMap(x=>[[x.accA,A,x],[x.accB,B,x]]).sort((a,b)=>b[0]-a[0])[0];
+  f.push(["Partida vieții", `${top[1]} a jucat la ${top[0]}% precizie pe ${fmt(top[2].e)}.`]);
+  const stolen=acc.filter(x=>x.win===A?x.accA<x.accB:x.accB<x.accA);
+  if(stolen.length) f.push(["Victorii furate", `Câștigate cu precizie mai mică decât a adversarului: ${A} ${stolen.filter(x=>x.win===A).length}, ${B} ${stolen.filter(x=>x.win===B).length}.`]);
+  const ups=g.filter(x=>x.win===A?x.rA<x.rB:x.rB<x.rA);
+  f.push(["David vs Goliat", `${ups.length} din ${de(N)} partide le-a câștigat cel cu rating mai mic în acel moment.`]);
+  const ops={}; g.forEach(x=>{const k=fam(x.op);ops[k]=(ops[k]||0)+1});
+  const [top1,n1]=Object.entries(ops).sort((a,b)=>b[1]-a[1])[0];
+  f.push(["Deschiderea casei", `${top1}, în ${n1} din ${de(N)} partide.`]);
+  const vk=g.filter(x=>/Van t Kruijs/.test(x.op));
+  if(vk.length) f.push(["Specialitatea 1.e3", `Van't Kruijs, deschiderea pe care n-o joacă aproape nimeni, a apărut de ${vk.length} ori. Albele au câștigat ${vk.filter(x=>x.win===x.w).length} din ${vk.length}.`]);
+  const diff=Math.abs(wa-wb);
+  f.push(["Contabilitatea berilor", lead ? `La o bere pe victorie, ${other(lead)} îi datorează lui ${lead} ${diff} ${diff===1?"bere":"beri"} net.` : "Berile sunt egale. Plătiți pe rând."]);
+  $("facts").innerHTML=f.map(([t,d])=>`<div class="fact"><b>${t}</b><span>${d}</span></div>`).join("");
+})();
+
+let showAll=false;
+function list(){
+  const rows=g.map((x,i)=>({...x,i:i+1})).reverse().slice(0,showAll?N:10);
+  $("games").innerHTML=rows.map(x=>`<a class="g" href="${x.u}" target="_blank" rel="noopener">
+    <span class="res" style="background:var(${C(x.win)})">${x.win===A?"M":"E"}</span>
+    <span class="t"><b>${nice(x.op)}</b><span>#${x.i} · albe: ${x.w} · a cedat ${x.lose}</span></span>
+    <span class="d">${x.mv} mutări<br>${fmt(x.e)}</span></a>`).join("");
+  $("more").hidden=showAll||N<=10;
+}
+$("more").addEventListener("click",()=>{showAll=true;list()});
+list();
+
+$("foot").textContent=`Date din API-ul public Chess.com, actualizate ${new Date(updated*1000).toLocaleString("ro-RO",{day:"numeric",month:"long",hour:"2-digit",minute:"2-digit"})}. Se actualizează singure la câteva ore. Doar partidele daily dintre cei doi.`;
+}
+fetch("data.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json()})
+  .then(d=>render(d.games,d.updated))
+  .catch(()=>{$("foot").textContent="Nu am putut încărca partidele. Reîncarcă pagina peste câteva minute.";});
+</script>
+</body></html>
