@@ -1,5 +1,5 @@
 <!doctype html><html lang="ro"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}</style>
-<title>Marcus vs Ender</title>
+<title>Vlad vs Vali</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: o coloană tip tabelă de scor; hero = scorul mare, apoi secțiuni stivuite */
@@ -19,7 +19,7 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   display:flex;flex-direction:column;gap:30px}
 h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,7.5vw,46px);line-height:1.05;margin:4px 0 0}
-h1 span{display:block;white-space:nowrap}
+h1 span{white-space:nowrap}
 h1 .vs{color:var(--muted);font-weight:500;font-size:.55em;margin:2px 0}
 .pa{color:var(--a)} .pb{color:var(--b)}
 h2{font-family:var(--display);font-weight:800;font-size:20px;margin:0 0 12px}
@@ -65,7 +65,7 @@ h2{font-family:var(--display);font-weight:800;font-size:20px;margin:0 0 12px}
 <div class="wrap">
   <header>
     <div class="label">Daily · Chess.com · meci direct</div>
-    <h1><span class="pa">marcus7aurelius</span><span class="vs">vs</span><span class="pb">ender6667</span></h1>
+    <h1><span class="pa">Vlad</span><span class="vs">vs</span><span class="pb">Vali</span></h1>
     <div class="crown" id="crown"></div>
     <div class="score">
       <div><div class="n pa" id="wa"></div><div class="label">victorii</div></div>
@@ -84,7 +84,7 @@ h2{font-family:var(--display);font-weight:800;font-size:20px;margin:0 0 12px}
   <section>
     <h2>Rating daily</h2>
     <div class="chart">
-      <div class="legend"><span class="pa">marcus7aurelius</span><span class="pb">ender6667</span></div>
+      <div class="legend"><span class="pa">Vlad</span><span class="pb">Vali</span></div>
       <svg id="svg" viewBox="0 0 640 220" role="img" aria-label="Rating-ul daily al fiecăruia la fiecare partidă"></svg>
     </div>
   </section>
@@ -106,7 +106,8 @@ h2{font-family:var(--display);font-weight:800;font-size:20px;margin:0 0 12px}
 </div>
 
 <script>
-const A="marcus7aurelius", B="ender6667";
+const NAME={marcus7aurelius:"Vlad",ender6667:"Vali"};
+const A="Vlad", B="Vali";
 const $=id=>document.getElementById(id);
 const C=p=>p===A?"--a":"--b";
 const other=p=>p===A?B:A;
@@ -115,6 +116,7 @@ const nice=s=>s.replace(/\bVan t\b/,"Van't").replace(/\bKings\b/g,"King's").repl
 const de=n=>n>=20?n+" de":n;
 const fam=s=>nice(s).replace(/^(.*?\b(Defense|Opening|Game|Gambit|Attack))\b.*$/,"$1");
 function render(GAMES,updated){
+GAMES=GAMES.map(x=>({...x,w:NAME[x.w]||x.w,win:NAME[x.win]||x.win}));
 const g=GAMES.map(x=>({...x,lose:other(x.win),
   rA:x.w===A?x.wr:x.br, rB:x.w===A?x.br:x.wr,
   accA:x.w===A?x.wa:x.ba, accB:x.w===A?x.ba:x.wa}));
@@ -130,7 +132,7 @@ $("crown").innerHTML=lead
   ? `<span class="${lead===A?"pa":"pb"}">${lead}</span> e Împăratul tablei, cu +${Math.abs(wa-wb)}. Ultima partidă: ${g[N-1].win}${cur>1?`, ${cur} victorii la rând`:""}.`
   : "Egalitate perfectă. Nimeni nu poartă coroana.";
 
-$("strip").innerHTML=g.map((x,i)=>`<a href="${x.u}" target="_blank" rel="noopener" title="#${i+1} · ${fmt(x.e)} · câștigă ${x.win}" style="background:var(${C(x.win)})">${x.win===A?"M":"E"}</a>`).join("");
+$("strip").innerHTML=g.map((x,i)=>`<a href="${x.u}" target="_blank" rel="noopener" title="#${i+1} · ${fmt(x.e)} · câștigă ${x.win}" style="background:var(${C(x.win)})">${x.win===A?"Vl":"Va"}</a>`).join("");
 
 (function(){
   const W=640,H=220,L=44,R=12,T=14,Bm=28;
@@ -194,7 +196,7 @@ let showAll=false;
 function list(){
   const rows=g.map((x,i)=>({...x,i:i+1})).reverse().slice(0,showAll?N:10);
   $("games").innerHTML=rows.map(x=>`<a class="g" href="${x.u}" target="_blank" rel="noopener">
-    <span class="res" style="background:var(${C(x.win)})">${x.win===A?"M":"E"}</span>
+    <span class="res" style="background:var(${C(x.win)})">${x.win===A?"Vl":"Va"}</span>
     <span class="t"><b>${nice(x.op)}</b><span>#${x.i} · albe: ${x.w} · a cedat ${x.lose}</span></span>
     <span class="d">${x.mv} mutări<br>${fmt(x.e)}</span></a>`).join("");
   $("more").hidden=showAll||N<=10;
